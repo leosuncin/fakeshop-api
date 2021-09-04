@@ -6,6 +6,27 @@ export interface ValidationError {
   errors: Record<string, string[]>;
 }
 
+/**
+ * @apiDefine ProductValidationError
+ *
+ * @apiError (Unprocessable Entity 422) {String}   message         Error message
+ * @apiError (Unprocessable Entity 422) {Object}   errors          Error details
+ * @apiError (Unprocessable Entity 422) {String[]} errors.title    Title's errors
+ * @apiError (Unprocessable Entity 422) {String[]} errors.price    Price's errors
+ * @apiError (Unprocessable Entity 422) {String[]} errors.category Category's errors
+ *
+ * @apiErrorExample Validation-Response:
+ *    HTTP/1.1 422 Unprocessable Entity
+ *    {
+ *      "errors": {
+ *        "category": ["Path `category` is required."],
+ *        "price": ["Path `price` is required."],
+ *        "title": ["Path `title` is required."]
+ *      },
+ *      "message": "Validation errors"
+ *    }
+ */
+
 function transformValidationError(
   error: MongooseError.ValidationError,
 ): ValidationError {

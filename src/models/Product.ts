@@ -27,6 +27,19 @@ export interface ProductModel extends mongoose.Model<ProductDocument> {
   ): Promise<[ProductDocument[], number]>;
 }
 
+/**
+ * @apiDefine ProductResponse
+ *
+ * @apiSuccess {String} id          Identifier of the product
+ * @apiSuccess {String} title       Title of the product
+ * @apiSuccess {Number} price       Price of the product
+ * @apiSuccess {String} category    Category of the product
+ * @apiSuccess {String} description Description of the product
+ * @apiSuccess {String} image       Image of the product
+ * @apiSuccess {String} [createdAt] Product created at
+ * @apiSuccess {String} [updatedAt] Product updated at
+ */
+
 export type ProductJson = Except<
   mongoose.LeanDocument<ProductDocument>,
   '__v' | '_id' | 'updateWith'
