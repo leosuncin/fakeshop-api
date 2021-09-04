@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "build:doc": "apidoc -i src -o docs",
     "dev": "source ./.env ; tsnd -r tsconfig-paths/register src/app.ts",
     "fixtures:reseed": "seedgoose reseed",
     "fixtures:seed": "seedgoose seed",
@@ -51,6 +52,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
+    "apidoc": "^0.29.0",
     "artillery": "^1.7.8",
     "artillery-plugin-expect": "^1.5.0",
     "artillery-plugin-faker": "^3.1.0",

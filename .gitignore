@@ -3,6 +3,7 @@ build/
 globalConfig.json
 report*
 docker.compose.override.yml
+docs/
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,linux,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode,linux,windows,macos
