@@ -1,0 +1,58 @@
+name: Continuos integration
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1
+      - uses: icrawl/action-tsc@v1
+      - uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: luke142367/Docker-Lint-Action@v1.0.0
+        with:
+          target: Dockerfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  unit-test:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      - uses: bahmutov/npm-install@v1
+      - run: npm test
+
+  e2e-test:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    services:
+      mongodb:
+        image: healthcheck/mongo
+        ports:
+          - '27017:27017'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      - uses: bahmutov/npm-install@v1
+      - run: |
+          npm run fixtures:seed
+          npm run build
+          npm start &
+        env:
+          NODE_ENV: production
+          PORT: 1337
+          LOG_LEVEL: warn
+          MONGO_URL: mongodb://localhost:${{ job.services.mongodb.ports[27017] }}/admin
+          ALLOWED_ORIGINS: '*'
+      - run: npm run test:e2e
