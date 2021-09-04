@@ -26,6 +26,9 @@
     "type-check": "tsc --noEmit --noErrorTruncation --pretty false --incremental false"
   },
   "keywords": [],
+  "optionalDependencies": {
+    "ts-node": "^10.2.1"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "envalid": "^7.2.1",
