@@ -1,0 +1,153 @@
+test-product: &product-json
+  expect:
+    - statusCode:
+        - 200
+        - 201
+    - contentType: json
+    - hasProperty: id
+    - hasProperty: title
+    - hasProperty: description
+    - hasProperty: price
+    - hasProperty: category
+    - hasProperty: image
+    - hasProperty: createdAt
+    - hasProperty: updatedAt
+
+config:
+  target: http://localhost:1337
+  environments:
+    functional:
+      plugins:
+        expect: {}
+      phases:
+        - duration: 1
+          arrivalCount: 2
+    load:
+      plugins:
+        metrics-by-endpoint:
+          useOnlyRequestNames: true
+      phases:
+        - duration: 60
+          arrivalRate: 5
+          name: Warm up
+        - duration: 120
+          arrivalRate: 5
+          rampTo: 50
+          name: Ramp up load
+        - duration: 600
+          arrivalRate: 50
+          name: Sustained load
+    stress:
+      phases:
+        - duration: 120
+          arrivalRate: 0
+          rampTo: 100
+          name: Bellow normal load
+        - duration: 300
+          arrivalRate: 100
+          rampTo: 200
+          name: Normal load
+        - duration: 300
+          arrivalRate: 200
+          rampTo: 300
+          name: Around the breaking point
+        - duration: 300
+          arrivalCount: 400
+          name: Beyond the breaking point
+        - pause: 120
+          name: Scale down. Recovery stage
+      ensure: {}
+  phases:
+    - duration: 30
+      arrivalRate: 1
+  variables:
+    productTitle: '$faker.commerce.productName'
+    productDescription: '$faker.commerce.productDescription'
+    productPrice: '$faker.commerce.price'
+    productCategory: '$faker.commerce.department'
+    productImage: '$faker.image.imageUrl'
+  plugins:
+    faker:
+      locale: en
+  ensure:
+    p95: 300
+    maxErrorRate: 1
+
+scenarios:
+  - name: Health check
+    flow:
+      - get:
+          url: /health
+          name: health-check
+          capture:
+            - json: '$.db'
+              as: db
+            - json: '$.status'
+              as: status
+          expect:
+            - statusCode: 200
+            - contentType: json
+            - hasProperty: db
+            - equals:
+                - '{{ db }}'
+                - 'connected'
+            - hasProperty: status
+            - equals:
+                - '{{ status }}'
+                - 'up'
+  - name: Product CRUD
+    weight: 2
+    flow:
+      - post:
+          url: /api/products
+          name: create-product
+          json:
+            title: '{{ productTitle }}'
+            description: '{{ productDescription }}'
+            price: '{{ productPrice }}'
+            category: '{{ productCategory }}'
+            image: '{{ productImage }}'
+          capture:
+            - json: '$.id'
+              as: id
+            - json: '$.category'
+              as: category
+          <<: *product-json
+      - get:
+          url: '/api/products/{{ id }}'
+          name: get-one-product
+          <<: *product-json
+      - get:
+          url: /api/products/categories
+          name: get-categories
+          expect:
+            - statusCode: 200
+            - contentType: json
+      - get:
+          url: '/api/products/categories/{{ category }}'
+          name: get-by-category
+          expect:
+            - statusCode: 200
+            - contentType: json
+            - hasHeader: x-total-count
+      - get:
+          url: /api/products
+          qs:
+            page: 2
+            limit: 15
+          name: list-products
+          expect:
+            - statusCode: 200
+            - contentType: json
+            - hasHeader: x-total-count
+      - put:
+          url: '/api/products/{{ id }}'
+          name: update-product
+          form:
+            price: '{{ productPrice }}'
+          <<: *product-json
+      - delete:
+          url: '/api/products/{{ id }}'
+          name: remove-product
+          expect:
+            - statusCode: 204

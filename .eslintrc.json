@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json.schemastore.org/eslintrc.json",
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": ["no-secrets", "deprecation"],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:node/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:array-func/all",
+    "plugin:eslint-comments/recommended",
+    "plugin:optimize-regex/recommended",
+    "plugin:promise/recommended",
+    "plugin:security/recommended",
+    "prettier"
+  ],
+  "env": {
+    "node": true
+  },
+  "ignorePatterns": ["dist/**", "coverage/**"],
+  "rules": {
+    "no-secrets/no-secrets": "error",
+    "deprecation/deprecation": "warn",
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      {
+        "ignores": ["modules"]
+      }
+    ],
+    "node/no-missing-import": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.ts"],
+      "extends": [
+        "plugin:jest/recommended",
+        "plugin:jest/style",
+        "plugin:jest-formatting/strict"
+      ]
+    }
+  ],
+  "settings": {
+    "node": {
+      "tryExtensions": [".js", ".json", ".ts", ".cjs"],
+      "allowModules": [
+        "express",
+        "faker",
+        "node-mocks-http",
+        "supertest",
+        "ts-jest"
+      ]
+    }
+  }
+}

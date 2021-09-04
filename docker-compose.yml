@@ -1,0 +1,51 @@
+x-app: &default-app
+  build:
+    context: .
+    target: app
+    args:
+      - 'NODE_ENV=${NODE_ENV:-production}'
+  depends_on:
+    - mongodb
+  env_file: .env
+  restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
+  stop_grace_period: 3s
+  tty: true
+services:
+  mongodb:
+    image: 'mongo:5'
+    env_file: .env
+    volumes:
+      - 'mongo-data:/data/db'
+    ports:
+      - '27017-27019:27017-27019'
+    restart: '${DOCKER_RESTART_POLICY:-unless-stopped}'
+    stop_grace_period: 3s
+    deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_MONGO_CPUS:-0}'
+          memory: '${DOCKER_MONGO_MEMORY:-0}'
+    healthcheck:
+      test: 'echo ''db.runCommand("ping").ok'' | mongo mongodb:27017/test --quiet'
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+  app:
+    <<: *default-app
+    deploy:
+      resources:
+        limits:
+          cpus: '${DOCKER_APP_CPUS:-0}'
+          memory: '${DOCKER_APP_MEMORY:-0}'
+    healthcheck:
+      test: ['CMD', '/nodejs/bin/node', '${DOCKER_APP_HEALTHCHECK_TEST:--v}']
+      interval: 60s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+    ports:
+      - '${PORT:-127.0.0.1:1337}:1337'
+
+volumes:
+  mongo-data: null
