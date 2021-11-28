@@ -35,7 +35,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "express-paginate": "^1.0.2",
-    "express-pino-logger": "^6.0.0",
+    "express-pino-logger": "^7.0.0",
     "mongoose": "^5.13.8",
     "type-fest": "^2.1.0"
   },
