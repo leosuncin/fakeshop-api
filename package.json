@@ -52,7 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "artillery": "^1.7.8",
-    "artillery-plugin-expect": "^1.5.0",
+    "artillery-plugin-expect": "^2.0.0",
     "artillery-plugin-faker": "^4.0.0",
     "artillery-plugin-metrics-by-endpoint": "^1.0.2",
     "eslint": "^7.32.0",
