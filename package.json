@@ -37,7 +37,7 @@
     "express-paginate": "^1.0.2",
     "express-pino-logger": "^7.0.0",
     "mongoose": "^5.13.8",
-    "type-fest": "^2.1.0"
+    "type-fest": "^3.3.0"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^3.0.1",
