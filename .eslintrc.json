@@ -47,7 +47,7 @@
       "tryExtensions": [".js", ".json", ".ts", ".cjs"],
       "allowModules": [
         "express",
-        "faker",
+        "@faker-js/faker",
         "node-mocks-http",
         "supertest",
         "ts-jest"
