@@ -120,6 +120,6 @@ ProductSchema.statics.paginate = async function (
   ]);
 };
 
-const Product = mongoose.model('Product', ProductSchema as any) as ProductModel;
+const Product = mongoose.model('Product', ProductSchema) as ProductModel;
 
 export default Product;

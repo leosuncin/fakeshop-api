@@ -1,4 +1,4 @@
-import { random } from 'faker';
+import { faker } from '@faker-js/faker';
 import { createMocks } from 'node-mocks-http';
 
 import Product from '@/models/Product';
@@ -39,7 +39,7 @@ describe('Find products handler', () => {
   });
 
   it('should get all products by category', async () => {
-    const { category } = random.arrayElement(products);
+    const { category } = faker.helpers.arrayElement(products);
     const { req, res } = createMocks({
       method: 'GET',
       url: `/products?category=${encodeURIComponent(category)}`,

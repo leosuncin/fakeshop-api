@@ -1,5 +1,5 @@
+import { faker } from '@faker-js/faker';
 import type { Request } from 'express';
-import { random } from 'faker';
 import { createMocks } from 'node-mocks-http';
 
 import Product from '@/models/Product';
@@ -21,7 +21,7 @@ describe('Get by category handler', () => {
   });
 
   it('should get all products by category', async () => {
-    const { category } = random.arrayElement(products);
+    const { category } = faker.helpers.arrayElement(products);
     const { req, res } = createMocks<Request<{ category: string }>>({
       method: 'GET',
       url: `/products/categories/${category}`,
@@ -42,7 +42,7 @@ describe('Get by category handler', () => {
   it('should get an empty list of products when category not exists', async () => {
     const { req, res } = createMocks<Request<{ category: string }>>({
       method: 'GET',
-      url: `/products/categories/${random.word()}`,
+      url: `/products/categories/${faker.lorem.word()}`,
     });
 
     await getByCategoryHandler(req, res);

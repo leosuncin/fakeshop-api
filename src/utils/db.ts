@@ -3,11 +3,7 @@ import '@/models/Product';
 import mongoose from 'mongoose';
 
 export async function connect(mongoUri: string): Promise<typeof mongoose> {
-  return mongoose.connect(mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  });
+  return mongoose.connect(mongoUri);
 }
 
 export async function disconnect(): Promise<void> {

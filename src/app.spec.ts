@@ -21,11 +21,11 @@ describe('App', () => {
       .expect(200)
       .expect(({ body }) => {
         expect(body).toMatchInlineSnapshot(`
-Object {
-  "db": "connected",
-  "status": "up",
-}
-`);
+          {
+            "db": "connected",
+            "status": "up",
+          }
+        `);
       });
   });
 
@@ -42,21 +42,21 @@ Object {
     const response = await request(app).post(route).send({}).expect(422);
 
     expect(response.body).toMatchInlineSnapshot(`
-Object {
-  "errors": Object {
-    "category": Array [
-      "Path \`category\` is required.",
-    ],
-    "price": Array [
-      "Path \`price\` is required.",
-    ],
-    "title": Array [
-      "Path \`title\` is required.",
-    ],
-  },
-  "message": "Validation errors",
-}
-`);
+      {
+        "errors": {
+          "category": [
+            "Path \`category\` is required.",
+          ],
+          "price": [
+            "Path \`price\` is required.",
+          ],
+          "title": [
+            "Path \`title\` is required.",
+          ],
+        },
+        "message": "Validation errors",
+      }
+    `);
   });
 
   it('should get all products', async () => {
@@ -75,10 +75,10 @@ Object {
       .expect(404)
       .expect((response) => {
         expect(response.body).toMatchInlineSnapshot(`
-Object {
-  "message": "API endpoint does not exist",
-}
-`);
+          {
+            "message": "API endpoint does not exist",
+          }
+        `);
       });
   });
 
@@ -108,15 +108,15 @@ Object {
       .expect(422);
 
     expect(response.body).toMatchInlineSnapshot(`
-Object {
-  "errors": Object {
-    "category": Array [
-      "Path \`category\` (\`az\`) is shorter than the minimum allowed length (3).",
-    ],
-  },
-  "message": "Validation errors",
-}
-`);
+      {
+        "errors": {
+          "category": [
+            "Path \`category\` (\`az\`) is shorter than the minimum allowed length (3).",
+          ],
+        },
+        "message": "Validation errors",
+      }
+    `);
   });
 
   it('should remove a product', async () => {
