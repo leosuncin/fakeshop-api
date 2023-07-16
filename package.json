@@ -49,7 +49,7 @@
     "@types/express-pino-logger": "^4.0.3",
     "@types/jest": "^29.2.4",
     "@types/supertest": "^2.0.12",
-    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^5.46.0",
     "artillery": "^1.7.8",
     "artillery-plugin-expect": "^2.1.0",
