@@ -55,7 +55,7 @@
     "artillery-plugin-expect": "^2.1.0",
     "artillery-plugin-faker": "^5.0.0",
     "artillery-plugin-metrics-by-endpoint": "^1.0.2",
-    "eslint": "^8.29.0",
+    "eslint": "^9.1.1",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-array-func": "^3.1.7",
     "eslint-plugin-deprecation": "^2.0.0",
