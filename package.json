@@ -40,7 +40,7 @@
     "type-fest": "^4.0.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.0",
+    "@faker-js/faker": "^9.0.1",
     "@shelf/jest-mongodb": "^4.1.4",
     "@types/artillery": "^1.6.3",
     "@types/cors": "^2.8.13",
