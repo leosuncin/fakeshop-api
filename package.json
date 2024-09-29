@@ -44,7 +44,7 @@
     "@shelf/jest-mongodb": "^4.1.4",
     "@types/artillery": "^1.6.3",
     "@types/cors": "^2.8.13",
-    "@types/express": "^4.17.14",
+    "@types/express": "^5.0.0",
     "@types/express-paginate": "^1.0.1",
     "@types/express-pino-logger": "^4.0.3",
     "@types/jest": "^29.2.4",
